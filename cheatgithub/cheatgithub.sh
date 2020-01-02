@@ -8,7 +8,7 @@
 do_dummy_thing() {
   declare -r FILENAME="dummy.txt"
 
-  if [ -e "$FILENAME" ];then
+  if [ -e "$FILENAME" ]; then
     rm $FILENAME
     echo "removed $FILENAME"
 
@@ -23,7 +23,7 @@ create_commits() {
   local number_of_commits_per_day=$1
   local number_of_days=$2
 
-  for ((i=number_of_days; i >= 0; i--)); do
+  for ((i=number_of_days-1; i >= 0; i--)); do
     
     for ((j=0; j < number_of_commits_per_day; j++)); do
 
@@ -33,7 +33,7 @@ create_commits() {
 
       local date_to_commit=`date --date="$i days ago"`
       GIT_COMMITTER_DATE="$date_to_commit" git commit --amend --no-edit --date "$date_to_commit"
-      echo committed $(( j + 1 )) commits for $date_to_commit
+      echo "committed $(( j + 1 )) commits for $date_to_commit"
 
     done
 
