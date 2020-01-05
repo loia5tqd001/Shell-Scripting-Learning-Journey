@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # wish design:
-#./draw_github_contributions.sh ./dates.txt
+#./draw_github_contributions.sh [data dates] [weeks offset] [number of commits per dot]
+#./draw_github_contributions.sh  ./data.txt   1              50
 
 
 do_dummy_thing() {
@@ -18,6 +19,16 @@ do_dummy_thing() {
 create_commits() {
   local date_to_commit=$1
   local number_of_commits=$2
+
+  if [ ! date -d date_to_commit ]; then
+    echo "Invalid date_to_commit: $date_to_commit"
+    return
+
+  elif [ ! number_of_commits ]; then
+    echo "Invalid number_of_commits: $number_of_commits"
+    return
+  fi
+
     
   for ((i=0; i < number_of_commits; i++)); do
 
@@ -33,6 +44,8 @@ create_commits() {
 
 
 file_data=$1
+weeks_offset=${2:-0}
+commits_per_day=${3:-50}
 
 if [ -f "$file_data" ]; then
   #readarray is only available from bash 4.0
@@ -42,8 +55,11 @@ if [ -f "$file_data" ]; then
 
     for date in ${array_dates[*]}; do
 
-      if date -d "$date"; then
-        create_commits "$date" 20
+      # https://unix.stackexchange.com/questions/49053/linux-add-x-days-to-date-and-get-new-virtual-date
+      date_to_commit=$( date -d "$date+$((weeks_offset * 7)) days" )
+
+      if [ "$date_to_commit" ]; then
+        create_commits "$date_to_commit" "$commits_per_day"
       else
         echo "invalid date: $date"
       fi
