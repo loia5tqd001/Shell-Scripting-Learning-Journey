@@ -1,6 +1,6 @@
 # Delete %README%.pdf files
 
-- To delete all the annoying pdf files from [this folder](https://github.com/loia5tqd001/LearnWebDev/tree/master/Frontend/30-days-css3)
+- To delete all the annoying pdf files from [this folder](https://github.com/loia5tqd001/Web-Learning-Journey/tree/master/frontend/30_days_css3)
 
 
 To print the file names before delete:
@@ -12,7 +12,7 @@ find . -name "*README*.pdf" -print
 
 To delete:
 ```
-find <source_dir> -name <filename> -print
+find <source_dir> -name <filename> -delete
 
 find . -name "*README*.pdf" -delete
 ```
